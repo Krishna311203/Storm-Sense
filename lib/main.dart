@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+
+import 'UI/get_started.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,6 +13,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return const MaterialApp(
+      title: 'Weather App',
+      home: GetStarted(),
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
