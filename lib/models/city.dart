@@ -19,14 +19,42 @@ class City {
         city: 'London',
         country: 'United Kingdom',
         isDefault: false),
-    City(isSelected: false, city: 'Tokyo', country: 'Japan', isDefault: false),
-    City(isSelected: false, city: 'Delhi', country: 'India', isDefault: true),
     City(
-        isSelected: false, city: 'Beijing', country: 'China', isDefault: false),
-    City(isSelected: false, city: 'Paris', country: 'Paris', isDefault: false),
-    City(isSelected: false, city: 'Rome', country: 'Italy', isDefault: false),
+      isSelected: false,
+      city: 'Tokyo',
+      country: 'Japan',
+      isDefault: false,
+    ),
     City(
-        isSelected: false, city: 'Lagos', country: 'Nigeria', isDefault: false),
+      isSelected: false,
+      city: 'Delhi',
+      country: 'India',
+      isDefault: true,
+    ),
+    City(
+      isSelected: false,
+      city: 'Beijing',
+      country: 'China',
+      isDefault: false,
+    ),
+    City(
+      isSelected: false,
+      city: 'Paris',
+      country: 'Paris',
+      isDefault: false,
+    ),
+    City(
+      isSelected: false,
+      city: 'Rome',
+      country: 'Italy',
+      isDefault: false,
+    ),
+    City(
+      isSelected: false,
+      city: 'Lagos',
+      country: 'Nigeria',
+      isDefault: false
+    ),
     City(
         isSelected: false,
         city: 'Amsterdam',
