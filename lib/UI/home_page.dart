@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:weatherapp_starter_project/UI/details_page.dart';
 import 'package:weatherapp_starter_project/models/constants.dart';
 
 import '../components/weather_item.dart';
@@ -21,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _cityController = TextEditingController();
   static String apiKey = '6d7b6257ed144616a3d141652230202';
 
-  String location = 'Delhi'; // default city
+  String location = "Delhi"; // default city
   String weatherIcon = 'heavycloud.png';
   int temperature = 0;
   int windSpeed = 0;
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   void fetchWeatherData(String searchText) async {
     try {
       var searchResult =
-          await http.get(Uri.parse(searchWeatherAPI + searchText));
+          await http.get(Uri.parse(searchWeatherAPI + searchText + "&aqi=no"));
 
       final weatherData = Map<String, dynamic>.from(
           json.decode(searchResult.body) ?? 'No Data');
@@ -79,14 +81,11 @@ class _HomePageState extends State<HomePage> {
 
   static String getShortLocationName(String s) {
     List<String> wordList = s.split(" ");
-    if (wordList.isEmpty) {
-      if (wordList.length > 1) {
-        return wordList[0] + " " + wordList[1];
-      } else {
-        return wordList[0];
-      }
+
+    if (wordList.length > 1) {
+      return wordList[0] + " " + wordList[1];
     } else {
-      return " ";
+      return wordList[0];
     }
   }
 
@@ -108,12 +107,11 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         width: size.width,
         height: size.height,
-        padding: const EdgeInsets.only(top: 70, left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         color: _myConstants.primaryColor.withOpacity(0.1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          // mainAxisAlignment: MainAxisAlignment.center,
-
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -137,11 +135,11 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: [ 
                       Image.asset(
                         "assets/menu.png",
-                        width: 40,
-                        height: 40,
+                        width: 30,
+                        height: 30,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,9 +167,9 @@ class _HomePageState extends State<HomePage> {
                                         controller:
                                             ModalScrollController.of(context),
                                         child: Container(
-                                          height: size.height * 0.2,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
+                                          // padding: const EdgeInsets.symmetric(
+                                          //   horizontal: 20,
+                                          // ),
                                           child: Column(
                                             children: [
                                               SizedBox(
@@ -181,9 +179,6 @@ class _HomePageState extends State<HomePage> {
                                                   color:
                                                       _myConstants.primaryColor,
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
                                               ),
                                               TextField(
                                                 onChanged: (searchText) {
@@ -240,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(
-                    height: 160,
+                    height: 120,
                     child: Image.asset("assets/" + weatherIcon),
                   ),
                   Row(
@@ -252,16 +247,16 @@ class _HomePageState extends State<HomePage> {
                         child: Text(
                           temperature.toString(),
                           style: TextStyle(
-                            fontSize: 80,
+                            fontSize: 60,
                             fontWeight: FontWeight.bold,
                             foreground: Paint()..shader = _myConstants.shader,
                           ),
                         ),
                       ),
                       Text(
-                        "o",
+                        "°",
                         style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 60,
                           fontWeight: FontWeight.bold,
                           foreground: Paint()..shader = _myConstants.shader,
                         ),
@@ -286,6 +281,7 @@ class _HomePageState extends State<HomePage> {
                       horizontal: 20,
                     ),
                     child: const Divider(
+                      thickness: 1,
                       color: Colors.white70,
                     ),
                   ),
@@ -333,7 +329,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: (() => print('tapeed')),
+                        onTap: (() => Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => Detailpage(dailyForecastWeather: dailyWeatherForecast,)))),
                         child: Text(
                           'Forecasts',
                           style: TextStyle(
@@ -347,8 +344,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 8),
                   SizedBox(
-                    height: 110,
+                    height: 90,
                     child: ListView.builder(
+                      itemCount: hourlyWeatherForecast.length,
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
@@ -377,17 +375,62 @@ class _HomePageState extends State<HomePage> {
                           margin: const EdgeInsets.only(right: 20),
                           width: 65,
                           decoration: BoxDecoration(
-                            color: currentHour == forecastHour ? Colors.white : _myConstants.primaryColor,
-                            borderRadius:  const BorderRadius.all(Radius.circular(50))
-                            
-                            )
-                          );
-                        ),
-                  
+                            color: currentHour == forecastHour
+                                ? Colors.white
+                                : _myConstants.primaryColor,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(50)),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color:
+                                    _myConstants.primaryColor.withOpacity(0.2),
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                forecastTime,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: _myConstants.greyColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/" + forecastWeatherIcon,
+                                width: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    forecastTemperature,
+                                    style: TextStyle(
+                                      color: _myConstants.greyColor,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    "°",
+                                    style: TextStyle(
+                                      color: _myConstants.greyColor,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        );
                       },
-                    )
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
