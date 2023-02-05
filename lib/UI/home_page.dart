@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _cityController = TextEditingController();
   static String apiKey = '6d7b6257ed144616a3d141652230202';
 
-  String location = "Delhi"; // default city
+  String location = "Indore"; // default city
   String weatherIcon = 'heavycloud.png';
   int temperature = 0;
   int windSpeed = 0;
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         width: size.width,
         height: size.height,
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 5, right: 5),
         color: _myConstants.primaryColor.withOpacity(0.1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,29 +133,29 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [ 
-                      Image.asset(
-                        "assets/menu.png",
-                        width: 30,
-                        height: 30,
-                      ),
+                    children: [
+                      // Image.asset(
+                      //   "assets/menu.png",
+                      //   width: 30,
+                      //   height: 30,
+                      // ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
                             "assets/pin.png",
-                            width: 20,
+                            width: 25,
                           ),
                           const SizedBox(
-                            width: 2,
+                            width: 10,
                           ),
                           Text(
                             location,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 40,
                             ),
                           ),
                           IconButton(
@@ -224,18 +224,18 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          "assets/profile.png",
-                          width: 40,
-                          height: 40,
-                        ),
-                      ),
+                      // ClipRRect(
+                      //   borderRadius: BorderRadius.circular(10),
+                      //   child: Image.asset(
+                      //     "assets/profile.png",
+                      //     width: 40,
+                      //     height: 40,
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
-                    height: 120,
+                    height: 150,
                     child: Image.asset("assets/" + weatherIcon),
                   ),
                   Row(
@@ -247,7 +247,7 @@ class _HomePageState extends State<HomePage> {
                         child: Text(
                           temperature.toString(),
                           style: TextStyle(
-                            fontSize: 60,
+                            fontSize: 85,
                             fontWeight: FontWeight.bold,
                             foreground: Paint()..shader = _myConstants.shader,
                           ),
@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         "°",
                         style: TextStyle(
-                          fontSize: 60,
+                          fontSize: 70,
                           fontWeight: FontWeight.bold,
                           foreground: Paint()..shader = _myConstants.shader,
                         ),
@@ -273,6 +273,7 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     currentDate,
                     style: TextStyle(
+                      fontSize: 20,
                       color: Colors.white70,
                     ),
                   ),
@@ -312,7 +313,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(
+                top: 35,
+              ),
               height: size.height * .2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -322,20 +325,25 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Today',
+                        '   Today',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
                       ),
                       GestureDetector(
-                        onTap: (() => Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => Detailpage(dailyForecastWeather: dailyWeatherForecast,)))),
+                        onTap: (() => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => Detailpage(
+                                      dailyForecastWeather:
+                                          dailyWeatherForecast,
+                                    )))),
                         child: Text(
-                          'Forecasts',
+                          'Forecasts   ',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                            fontSize: 20,
                             color: _myConstants.primaryColor,
                           ),
                         ),
